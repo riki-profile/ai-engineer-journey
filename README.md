@@ -7,7 +7,7 @@ Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hi
 | No | Modul | Status |
 |----|-------|--------|
 | 01 | [Deep Learning Dasar](01-deep-learning/) | 🟨 Sedang berjalan (2 notebook) |
-| 02 | [Convolutional Neural Network (CNN)](02-cnn/) | ⬜ Belum dimulai |
+| 02 | [Convolutional Neural Network (CNN)](02-cnn/) | 🟨 Sedang berjalan (2 notebook) |
 | 03 | [Object Detection](03-object-detection/) | ⬜ Belum dimulai |
 | 04 | [Image Segmentation](04-segmentation/) | ⬜ Belum dimulai |
 | 05 | [Vision Transformer (ViT)](05-vision-transformer/) | ⬜ Belum dimulai |
