@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Secrets (jangan pernah commit API key)
+.env.*
+!.env.example
+
+# Dataset yang diunduh otomatis & bobot model hasil training
+data/
+*.pt
+*.pth
