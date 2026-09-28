@@ -5,5 +5,5 @@ torchvision
 numpy
 matplotlib
 opencv-python-headless
-ultralytics
+ultralytics  # lisensi AGPL-3.0, lihat 03-object-detection/README.md
 jupyter

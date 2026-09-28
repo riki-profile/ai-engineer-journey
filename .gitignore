@@ -225,3 +225,7 @@ __marimo__/
 data/
 *.pt
 *.pth
+
+# Output ultralytics (hasil training/prediksi) & dataset sintetis modul 03
+runs/
+dataset_bentuk/
