@@ -26,7 +26,7 @@ Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hi
 
 | Proyek | Deskripsi | Status |
 |--------|-----------|--------|
-| [Deteksi Helm](projects/helmet-detection/) | Deteksi pengendara motor memakai / tidak memakai helm dengan YOLO (ultralytics) | 🟨 Persiapan data |
+| [Deteksi Helm](projects/helmet-detection/) | Deteksi pengendara motor memakai / tidak memakai helm dengan YOLO (ultralytics) | 🟨 Persiapan data & training |
 
 ## Setup
 

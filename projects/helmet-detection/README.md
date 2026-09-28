@@ -1,6 +1,6 @@
 # Deteksi Helm Pengendara Motor dengan YOLO
 
-**Status:** 🟨 Persiapan data
+**Status:** 🟨 Persiapan data & training
 
 ## Tujuan Proyek
 
@@ -56,6 +56,22 @@ Yang dilakukan `src/prepare_data.py`:
 5. Menyimpan laporan ke `results/data_report.json`. Skrip keluar dengan kode `1` jika ada error, sehingga bisa dipakai di pipeline.
 
 Opsi lengkap: `python src/prepare_data.py --help`.
+
+## Training di Google Colab
+
+| Notebook | Isi | Colab |
+|---|---|---|
+| [01_train_yolo_colab.ipynb](notebooks/01_train_yolo_colab.ipynb) | Cek GPU → clone repo → siapkan & validasi dataset → training YOLO → kurva training → evaluasi per kelas di split test → contoh prediksi → simpan hasil ke `results/` | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/riki-profile/ai-engineer-journey/blob/main/projects/helmet-detection/notebooks/01_train_yolo_colab.ipynb) |
+
+Langkah pemakaian:
+1. Di Colab, simpan URL dataset di **Secrets** (ikon 🔑) dengan nama `DATASET_URL` dan aktifkan *Notebook access*. Jika repo private, tambahkan juga `GITHUB_TOKEN`.
+2. Aktifkan GPU (**Runtime → Change runtime type → T4 GPU**), atur sel **Konfigurasi** (model, epoch, ukuran gambar), lalu **Run all**.
+3. Hasil training disimpan di Google Drive (`MyDrive/helmet-detection/runs/`). Jika Colab terputus, jalankan ulang notebook dengan `RUN_NAME` yang sama, dan training akan dilanjutkan dari checkpoint terakhir.
+4. Metrik dan grafik (`metrics.json`, `per_class.csv`, confusion matrix, kurva PR) disalin ke `results/<RUN_NAME>/` dan diunduh sebagai zip, siap di-commit. Bobot model (`*.pt`) tidak di-commit.
+
+## Hasil
+
+_Belum ada. Isi setelah training pertama: model, epoch, mAP50 / mAP50-95 per kelas, dan temuan dari analisis kasus gagal._
 
 ## Struktur
 

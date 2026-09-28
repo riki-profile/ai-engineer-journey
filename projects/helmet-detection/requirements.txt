@@ -2,3 +2,4 @@
 # Catatan: di Google Colab, torch & torchvision sudah terpasang.
 ultralytics>=8.3  # lisensi AGPL-3.0, lihat README
 python-dotenv     # membaca DATASET_URL dari file .env
+pandas            # tabel metrik & kurva training di notebook
