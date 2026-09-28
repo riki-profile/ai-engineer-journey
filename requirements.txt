@@ -1,0 +1,9 @@
+# Dependensi untuk modul 01–03 (deep learning, CNN, object detection)
+# Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
+torch
+torchvision
+numpy
+matplotlib
+opencv-python-headless
+ultralytics
+jupyter
