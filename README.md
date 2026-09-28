@@ -9,7 +9,7 @@ Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hi
 | 01 | [Deep Learning Dasar](01-deep-learning/) | 🟨 Sedang berjalan (2 notebook) |
 | 02 | [Convolutional Neural Network (CNN)](02-cnn/) | 🟨 Sedang berjalan (2 notebook) |
 | 03 | [Object Detection](03-object-detection/) | 🟨 Sedang berjalan (3 notebook) |
-| 04 | [Image Segmentation](04-segmentation/) | ⬜ Belum dimulai |
+| 04 | [Image Segmentation](04-segmentation/) | 🟨 Sedang berjalan (3 notebook) |
 | 05 | [Vision Transformer (ViT)](05-vision-transformer/) | ⬜ Belum dimulai |
 | 06 | [Transformers untuk NLP](06-transformers-nlp/) | ⬜ Belum dimulai |
 | 07 | [Embeddings & Vector Database](07-embeddings-vectordb/) | ⬜ Belum dimulai |
@@ -38,7 +38,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-`requirements.txt` saat ini mencakup dependensi modul 01–03.
+`requirements.txt` saat ini mencakup dependensi modul 01–04.
 
 ## Catatan Keamanan
 

@@ -1,4 +1,4 @@
-# Dependensi untuk modul 01–03 (deep learning, CNN, object detection)
+# Dependensi untuk modul 01–04 (deep learning, CNN, object detection, segmentation)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision

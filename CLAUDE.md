@@ -25,6 +25,6 @@ Latar belakang pemilik repo:
 
 - `README.md` — daftar isi modul dan status.
 - `NN-nama-modul/README.md` — tujuan, topik, dan status tiap modul.
-- `requirements.txt` — dependensi (saat ini untuk modul 01–03).
+- `requirements.txt` — dependensi (saat ini untuk modul 01–04).
 - `projects/` — proyek portofolio. Setiap proyek punya `CLAUDE.md`, `README.md`, dan `requirements.txt` sendiri (lihat `projects/helmet-detection/`).
 - `LICENSE` — AGPL-3.0 (mengikuti `ultralytics`). Jangan menambahkan kode atau dependensi dengan lisensi yang tidak kompatibel.
