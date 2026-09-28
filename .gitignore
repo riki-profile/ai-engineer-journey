@@ -220,3 +220,8 @@ __marimo__/
 # Secrets (jangan pernah commit API key)
 .env.*
 !.env.example
+
+# Dataset yang diunduh otomatis & bobot model hasil training
+data/
+*.pt
+*.pth
