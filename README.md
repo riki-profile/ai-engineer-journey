@@ -22,6 +22,12 @@ Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hi
 
 **Keterangan status:** ⬜ Belum dimulai · 🟨 Sedang berjalan · ✅ Selesai
 
+## Proyek
+
+| Proyek | Deskripsi | Status |
+|--------|-----------|--------|
+| [Deteksi Helm](projects/helmet-detection/) | Deteksi pengendara motor memakai / tidak memakai helm dengan YOLO (ultralytics) | 🟨 Persiapan data |
+
 ## Setup
 
 Notebook dirancang agar bisa dijalankan di **Google Colab**. Untuk menjalankan secara lokal:
@@ -37,3 +43,7 @@ pip install -r requirements.txt
 ## Catatan Keamanan
 
 Simpan API key di file `.env` (sudah diabaikan oleh `.gitignore`) — jangan pernah menulisnya langsung di kode atau notebook.
+
+## Lisensi
+
+Repo ini berlisensi **[GNU AGPL-3.0](LICENSE)**, mengikuti lisensi library `ultralytics` yang dipakai di modul 03 dan proyek deteksi helm. Alasannya dijelaskan di [README proyek](projects/helmet-detection/README.md#lisensi-mengapa-agpl-30).

@@ -1,0 +1,14 @@
+# Konfigurasi dataset YOLO untuk proyek deteksi helm.
+# `path` relatif terhadap folder kerja saat perintah dijalankan,
+# jadi jalankan training dari folder projects/helmet-detection/.
+path: data
+train: images/train
+val: images/val
+test: images/test
+
+# TODO: sesuaikan urutan dengan dataset yang dipakai.
+# Jalankan `python src/prepare_data.py ... --sync-names` untuk menyalin
+# nama kelas dari data.yaml bawaan dataset secara otomatis.
+names:
+  0: helmet
+  1: no_helmet
