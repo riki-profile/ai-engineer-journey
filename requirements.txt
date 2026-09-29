@@ -1,4 +1,4 @@
-# Dependensi untuk modul 01–08 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM)
+# Dependensi untuk modul 01–09 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision
@@ -19,3 +19,4 @@ chromadb        # modul 07 (Apache-2.0)
 qdrant-client   # modul 07 (Apache-2.0)
 anthropic>=1.9   # modul 08, Claude API (MIT)
 python-dotenv    # modul 08, membaca .env (BSD-3-Clause)
+rank_bm25        # modul 09, BM25 (Apache-2.0)

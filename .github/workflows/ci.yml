@@ -103,7 +103,7 @@ jobs:
 
   notebooks-berat:
     # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
-    # model dari Hugging Face termasuk LLM lokal modul 08) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
+    # model dari Hugging Face termasuk LLM lokal modul 08 dan embedding/reranker modul 09) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
     #   - terjadwal tiap Senin, atau manual lewat Actions → CI → Run workflow;
     #   - di PR yang diberi label `notebook-berat` (juga di setiap push selama label masih ada).
     # Satu job per notebook (matrix) agar berjalan paralel dan kegagalan mudah dilacak.
@@ -129,6 +129,9 @@ jobs:
           - 07-embeddings-vectordb/01_embeddings_dan_similarity.ipynb
           - 07-embeddings-vectordb/03_vector_db.ipynb
           - 08-llm-basics/01_cara_kerja_llm.ipynb
+          - 09-rag/01_chunking_dan_retrieval.ipynb
+          - 09-rag/02_rag_dengan_claude.ipynb
+          - 09-rag/03_evaluasi_rag.ipynb
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -164,4 +167,11 @@ jobs:
             echo "CIFAR-10 tidak dibutuhkan atau sudah ada di cache"
           fi
       - name: Jalankan notebook
-        run: python scripts/run_notebooks.py "${{ matrix.notebook }}"
+        # Notebook yang memanggil Claude API (modul 09) memakai server tiruan; tidak ada API key di CI
+        env:
+          ANTHROPIC_BASE_URL: http://127.0.0.1:8765
+          ANTHROPIC_API_KEY: kunci-uji
+        run: |
+          python scripts/fake_anthropic_server.py --port 8765 > "$RUNNER_TEMP/fake_api.log" 2>&1 &
+          sleep 2
+          python scripts/run_notebooks.py "${{ matrix.notebook }}"
