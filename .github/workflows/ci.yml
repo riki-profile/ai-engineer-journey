@@ -87,6 +87,7 @@ jobs:
             06-transformers-nlp/01_tokenisasi.ipynb \
             06-transformers-nlp/02_transformer_decoder_dari_nol.ipynb \
             07-embeddings-vectordb/02_ann_faiss_hnsw.ipynb \
+            10-llm-finetuning/01_kapan_finetuning_dan_lora_dari_nol.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
       - name: Jalankan notebook Claude API (server tiruan, tanpa API key)
         # Notebook modul 08 yang memanggil Claude API diuji terhadap server lokal yang meniru bentuk respons API.
@@ -103,7 +104,8 @@ jobs:
 
   notebooks-berat:
     # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
-    # model dari Hugging Face termasuk LLM lokal modul 08 dan embedding/reranker modul 09) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
+    # model dari Hugging Face termasuk LLM lokal modul 08, embedding/reranker modul 09,
+    # dan fine-tuning LLM modul 10) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
     #   - terjadwal tiap Senin, atau manual lewat Actions → CI → Run workflow;
     #   - di PR yang diberi label `notebook-berat` (juga di setiap push selama label masih ada).
     # Satu job per notebook (matrix) agar berjalan paralel dan kegagalan mudah dilacak.
@@ -132,6 +134,7 @@ jobs:
           - 09-rag/01_chunking_dan_retrieval.ipynb
           - 09-rag/02_rag_dengan_claude.ipynb
           - 09-rag/03_evaluasi_rag.ipynb
+          - 10-llm-finetuning/02_sft_lora_qwen_sentimen.ipynb
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
