@@ -229,3 +229,7 @@ data/
 # Output ultralytics (hasil training/prediksi) & dataset sintetis modul 03
 runs/
 dataset_bentuk/
+
+# Hasil training modul 10 (adapter & checkpoint tidak di-commit)
+10-llm-finetuning/hasil_sft/
+10-llm-finetuning/adapter_sentimen/
