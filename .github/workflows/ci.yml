@@ -78,11 +78,12 @@ jobs:
             03-object-detection/*.ipynb \
             04-segmentation/01_konsep_segmentasi.ipynb \
             04-segmentation/03_yolo_seg_dan_sam.ipynb \
+            05-vision-transformer/01_vit_dari_nol.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
 
   notebooks-berat:
-    # Notebook yang mengunduh dataset besar (CIFAR-10, Flowers102, Oxford-IIIT Pet)
-    # hanya dijalankan terjadwal/manual agar PR tetap cepat.
+    # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
+    # ViT & CLIP dari Hugging Face) hanya dijalankan terjadwal/manual agar PR tetap cepat.
     name: Notebook dataset besar (terjadwal)
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -100,4 +101,6 @@ jobs:
         run: |
           python scripts/run_notebooks.py \
             02-cnn/*.ipynb \
-            04-segmentation/02_unet_dari_nol.ipynb
+            04-segmentation/02_unet_dari_nol.ipynb \
+            05-vision-transformer/02_finetune_vit_hf.ipynb \
+            05-vision-transformer/03_clip_zero_shot.ipynb

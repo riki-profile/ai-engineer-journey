@@ -12,7 +12,7 @@ Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hi
 | 02 | [Convolutional Neural Network (CNN)](02-cnn/) | 🟨 Sedang berjalan (2 notebook) |
 | 03 | [Object Detection](03-object-detection/) | 🟨 Sedang berjalan (3 notebook) |
 | 04 | [Image Segmentation](04-segmentation/) | 🟨 Sedang berjalan (3 notebook) |
-| 05 | [Vision Transformer (ViT)](05-vision-transformer/) | ⬜ Belum dimulai |
+| 05 | [Vision Transformer (ViT)](05-vision-transformer/) | 🟨 Sedang berjalan (3 notebook) |
 | 06 | [Transformers untuk NLP](06-transformers-nlp/) | ⬜ Belum dimulai |
 | 07 | [Embeddings & Vector Database](07-embeddings-vectordb/) | ⬜ Belum dimulai |
 | 08 | [Dasar Large Language Model](08-llm-basics/) | ⬜ Belum dimulai |
@@ -40,7 +40,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-`requirements.txt` saat ini mencakup dependensi modul 01–04.
+`requirements.txt` saat ini mencakup dependensi modul 01–05.
 
 ## Pengecekan Otomatis (CI)
 
@@ -50,8 +50,8 @@ Setiap pull request dan push ke `main` diperiksa otomatis oleh GitHub Actions ([
 |---|---|
 | Lint & kebersihan repo | `ruff check .`, notebook di-commit tanpa output, scan pola API key/token |
 | Tes `prepare_data.py` | `pytest` untuk proyek deteksi helm (dataset sintetis) |
-| Notebook (QUICK_RUN) | Menjalankan notebook modul 01, 03, 04 (kecuali U-Net), dan notebook training helm dengan data kecil di CPU |
-| Notebook dataset besar | Modul 02 dan U-Net (unduhan dataset besar); hanya terjadwal tiap Senin atau manual lewat tab **Actions → CI → Run workflow** |
+| Notebook (QUICK_RUN) | Menjalankan notebook modul 01, 03, 04 (kecuali U-Net), 05 (ViT dari nol), dan notebook training helm dengan data kecil di CPU |
+| Notebook dataset besar | Modul 02, U-Net, fine-tune ViT, dan CLIP (unduhan dataset/model besar); hanya terjadwal tiap Senin atau manual lewat tab **Actions → CI → Run workflow** |
 
 Menjalankan pengecekan yang sama secara lokal:
 

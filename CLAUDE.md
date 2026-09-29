@@ -26,7 +26,7 @@ Latar belakang pemilik repo:
 
 - `README.md` — daftar isi modul dan status.
 - `NN-nama-modul/README.md` — tujuan, topik, dan status tiap modul.
-- `requirements.txt` — dependensi (saat ini untuk modul 01–04).
+- `requirements.txt` — dependensi (saat ini untuk modul 01–05).
 - `projects/` — proyek portofolio. Setiap proyek punya `CLAUDE.md`, `README.md`, dan `requirements.txt` sendiri (lihat `projects/helmet-detection/`).
 - `.github/workflows/ci.yml` — CI (GitHub Actions): ruff, notebook tanpa output, scan API key, pytest proyek helm, dan notebook dengan `QUICK_RUN=1`. Notebook baru yang ringan ditambahkan ke job `notebooks`; yang mengunduh dataset besar ke job `notebooks-berat`.
 - `scripts/run_notebooks.py` — menjalankan notebook (`QUICK_RUN=1`) atau mengecek notebook bebas output (`--check-clean`).
