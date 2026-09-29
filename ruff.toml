@@ -1,0 +1,11 @@
+# Konfigurasi lint ruff untuk seluruh repo (dipakai juga oleh CI).
+target-version = "py311"
+line-length = 120
+
+[lint]
+# Aturan default ruff (pyflakes + error pycodestyle yang penting)
+select = ["E4", "E7", "E9", "F"]
+
+[lint.per-file-ignores]
+# Di notebook, beberapa perintah plotting pendek sengaja ditulis dalam satu baris dengan `;`
+"*.ipynb" = ["E702"]

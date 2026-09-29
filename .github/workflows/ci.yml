@@ -1,0 +1,154 @@
+# CI: pemeriksaan otomatis setiap ada pull request atau push ke main.
+# Runner GitHub hanya CPU, jadi notebook dijalankan dengan QUICK_RUN=1 (data kecil, 1 epoch).
+name: CI
+
+on:
+  pull_request:
+    # "labeled": memberi label `notebook-berat` pada PR menjalankan job notebook berat
+    types: [opened, synchronize, reopened, labeled]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 3 * * 1"   # setiap Senin 03:17 UTC: jalankan juga notebook dengan dataset besar
+  workflow_dispatch:         # tombol "Run workflow" manual di tab Actions
+
+concurrency:
+  # Run karena label dipisah dari run biasa agar tidak saling membatalkan
+  group: ci-${{ github.ref }}-${{ github.event.action == 'labeled' && 'label' || 'utama' }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint & kebersihan repo
+    if: github.event.action != 'labeled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff nbformat
+      - name: Lint Python & notebook (ruff)
+        run: ruff check .
+      - name: Notebook di-commit tanpa output
+        run: python scripts/run_notebooks.py --check-clean $(git ls-files '*.ipynb')
+      - name: Tidak ada API key/token yang ter-commit
+        run: |
+          pola='(sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|hf_[A-Za-z0-9]{30,}|AKIA[0-9A-Z]{16}|(api_key|api-key|apikey|token|secret)=[A-Za-z0-9_-]{16,})'
+          if git grep -nIE "$pola" -- . ':!LICENSE'; then
+            echo "❌ Ditemukan string yang mirip API key/token. Pindahkan ke .env atau Colab Secrets."
+            exit 1
+          fi
+          echo "✅ Tidak ada pola API key/token"
+
+  test-helm:
+    name: Tes prepare_data.py (proyek helm)
+    if: github.event.action != 'labeled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: projects/helmet-detection
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pyyaml pillow python-dotenv pytest
+      - run: pytest -q
+
+  notebooks:
+    name: Notebook (QUICK_RUN)
+    needs: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instal dependensi (PyTorch versi CPU agar lebih ringan)
+        run: |
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt -r projects/helmet-detection/requirements.txt nbclient ipykernel
+      - name: Dataset sintetis untuk notebook proyek helm
+        run: |
+          python projects/helmet-detection/tests/make_synthetic_dataset.py "$RUNNER_TEMP/helm.zip"
+          echo "DATASET_URL=$RUNNER_TEMP/helm.zip" >> "$GITHUB_ENV"
+      - name: Jalankan notebook ringan
+        run: |
+          python scripts/run_notebooks.py \
+            01-deep-learning/*.ipynb \
+            03-object-detection/*.ipynb \
+            04-segmentation/01_konsep_segmentasi.ipynb \
+            04-segmentation/03_yolo_seg_dan_sam.ipynb \
+            05-vision-transformer/01_vit_dari_nol.ipynb \
+            06-transformers-nlp/01_tokenisasi.ipynb \
+            06-transformers-nlp/02_transformer_decoder_dari_nol.ipynb \
+            07-embeddings-vectordb/02_ann_faiss_hnsw.ipynb \
+            projects/helmet-detection/notebooks/*.ipynb
+
+  notebooks-berat:
+    # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
+    # model dari Hugging Face) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
+    #   - terjadwal tiap Senin, atau manual lewat Actions → CI → Run workflow;
+    #   - di PR yang diberi label `notebook-berat` (juga di setiap push selama label masih ada).
+    # Satu job per notebook (matrix) agar berjalan paralel dan kegagalan mudah dilacak.
+    name: Notebook berat (${{ matrix.notebook }})
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       contains(github.event.pull_request.labels.*.name, 'notebook-berat') &&
+       (github.event.action != 'labeled' || github.event.label.name == 'notebook-berat'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        notebook:
+          - 02-cnn/01_cnn_dari_nol.ipynb
+          - 02-cnn/02_transfer_learning.ipynb
+          - 04-segmentation/02_unet_dari_nol.ipynb
+          - 05-vision-transformer/02_finetune_vit_hf.ipynb
+          - 05-vision-transformer/03_clip_zero_shot.ipynb
+          - 06-transformers-nlp/03_finetune_indobert_sentimen.ipynb
+          - 07-embeddings-vectordb/01_embeddings_dan_similarity.ipynb
+          - 07-embeddings-vectordb/03_vector_db.ipynb
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Cache dataset & model
+        # Dataset di folder data/ tiap modul + cache model Hugging Face/PyTorch, agar run berikutnya tidak mengunduh ulang
+        uses: actions/cache@v4
+        with:
+          path: |
+            */data
+            ~/.cache/huggingface
+            ~/.cache/torch
+          key: berat-${{ matrix.notebook }}-v1
+      - name: Instal dependensi
+        run: |
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt nbclient ipykernel
+      - name: Unduh CIFAR-10 lebih dulu (jika dibutuhkan)
+        # Server CIFAR-10 (cs.toronto.edu) sering sangat lambat dari runner GitHub dan bisa melewati batas
+        # 30 menit per sel notebook. Unduh di step terpisah dengan beberapa koneksi paralel; torchvision
+        # tetap memverifikasi MD5 arsip lalu mengekstraknya.
+        run: |
+          nb="${{ matrix.notebook }}"
+          data_dir="$(dirname "$nb")/data"
+          if grep -q "CIFAR10" "$nb" && [ ! -d "$data_dir/cifar-10-batches-py" ]; then
+            mkdir -p "$data_dir"
+            sudo apt-get install -y -qq aria2 > /dev/null
+            aria2c -x 16 -s 16 --max-tries=5 --retry-wait=10 -d "$data_dir" -o cifar-10-python.tar.gz \
+              https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz || rm -f "$data_dir/cifar-10-python.tar.gz"
+            python -c "import sys, torchvision; torchvision.datasets.CIFAR10(sys.argv[1], download=True)" "$data_dir"
+          else
+            echo "CIFAR-10 tidak dibutuhkan atau sudah ada di cache"
+          fi
+      - name: Jalankan notebook
+        run: python scripts/run_notebooks.py "${{ matrix.notebook }}"

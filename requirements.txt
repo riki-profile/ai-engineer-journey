@@ -1,9 +1,19 @@
-# Dependensi untuk modul 01–03 (deep learning, CNN, object detection)
+# Dependensi untuk modul 01–07 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision
 numpy
 matplotlib
 opencv-python-headless
-ultralytics
+ultralytics  # lisensi AGPL-3.0, lihat 03-object-detection/README.md
 jupyter
+transformers    # modul 05 (Apache-2.0)
+open_clip_torch # modul 05, CLIP (MIT)
+scikit-learn    # modul 05–06 (BSD-3-Clause)
+datasets        # modul 06 (Apache-2.0)
+accelerate      # modul 06, dibutuhkan Trainer (Apache-2.0)
+pandas          # modul 06 (BSD-3-Clause)
+sentence-transformers  # modul 07 (Apache-2.0)
+faiss-cpu       # modul 07 (MIT)
+chromadb        # modul 07 (Apache-2.0)
+qdrant-client   # modul 07 (Apache-2.0)
