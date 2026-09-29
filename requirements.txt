@@ -1,4 +1,4 @@
-# Dependensi untuk modul 01–06 (deep learning, CNN, object detection, segmentation, vision transformer, NLP)
+# Dependensi untuk modul 01–07 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision
@@ -13,3 +13,7 @@ scikit-learn    # modul 05–06 (BSD-3-Clause)
 datasets        # modul 06 (Apache-2.0)
 accelerate      # modul 06, dibutuhkan Trainer (Apache-2.0)
 pandas          # modul 06 (BSD-3-Clause)
+sentence-transformers  # modul 07 (Apache-2.0)
+faiss-cpu       # modul 07 (MIT)
+chromadb        # modul 07 (Apache-2.0)
+qdrant-client   # modul 07 (Apache-2.0)

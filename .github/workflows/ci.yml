@@ -86,14 +86,16 @@ jobs:
             05-vision-transformer/01_vit_dari_nol.ipynb \
             06-transformers-nlp/01_tokenisasi.ipynb \
             06-transformers-nlp/02_transformer_decoder_dari_nol.ipynb \
+            07-embeddings-vectordb/02_ann_faiss_hnsw.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
 
   notebooks-berat:
     # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
-    # ViT, CLIP & IndoBERT dari Hugging Face) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
+    # model dari Hugging Face) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
     #   - terjadwal tiap Senin, atau manual lewat Actions → CI → Run workflow;
     #   - di PR yang diberi label `notebook-berat` (juga di setiap push selama label masih ada).
-    name: Notebook dataset besar (terjadwal/label)
+    # Satu job per notebook (matrix) agar berjalan paralel dan kegagalan mudah dilacak.
+    name: Notebook berat (${{ matrix.notebook }})
     if: >-
       github.event_name == 'schedule' ||
       github.event_name == 'workflow_dispatch' ||
@@ -102,6 +104,18 @@ jobs:
        (github.event.action != 'labeled' || github.event.label.name == 'notebook-berat'))
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        notebook:
+          - 02-cnn/01_cnn_dari_nol.ipynb
+          - 02-cnn/02_transfer_learning.ipynb
+          - 04-segmentation/02_unet_dari_nol.ipynb
+          - 05-vision-transformer/02_finetune_vit_hf.ipynb
+          - 05-vision-transformer/03_clip_zero_shot.ipynb
+          - 06-transformers-nlp/03_finetune_indobert_sentimen.ipynb
+          - 07-embeddings-vectordb/01_embeddings_dan_similarity.ipynb
+          - 07-embeddings-vectordb/03_vector_db.ipynb
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -111,11 +125,5 @@ jobs:
         run: |
           pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements.txt nbclient ipykernel
-      - name: Jalankan notebook berat
-        run: |
-          python scripts/run_notebooks.py \
-            02-cnn/*.ipynb \
-            04-segmentation/02_unet_dari_nol.ipynb \
-            05-vision-transformer/02_finetune_vit_hf.ipynb \
-            05-vision-transformer/03_clip_zero_shot.ipynb \
-            06-transformers-nlp/03_finetune_indobert_sentimen.ipynb
+      - name: Jalankan notebook
+        run: python scripts/run_notebooks.py "${{ matrix.notebook }}"
