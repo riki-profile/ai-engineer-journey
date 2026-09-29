@@ -1,5 +1,7 @@
 # AI Engineer Journey
 
+[![CI](https://github.com/riki-profile/ai-engineer-journey/actions/workflows/ci.yml/badge.svg)](https://github.com/riki-profile/ai-engineer-journey/actions/workflows/ci.yml)
+
 Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hingga deployment dan MLOps.
 
 ## Daftar Isi Modul
@@ -39,6 +41,27 @@ pip install -r requirements.txt
 ```
 
 `requirements.txt` saat ini mencakup dependensi modul 01–04.
+
+## Pengecekan Otomatis (CI)
+
+Setiap pull request dan push ke `main` diperiksa otomatis oleh GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
+
+| Job | Isi |
+|---|---|
+| Lint & kebersihan repo | `ruff check .`, notebook di-commit tanpa output, scan pola API key/token |
+| Tes `prepare_data.py` | `pytest` untuk proyek deteksi helm (dataset sintetis) |
+| Notebook (QUICK_RUN) | Menjalankan notebook modul 01, 03, 04 (kecuali U-Net), dan notebook training helm dengan data kecil di CPU |
+| Notebook dataset besar | Modul 02 dan U-Net (unduhan dataset besar); hanya terjadwal tiap Senin atau manual lewat tab **Actions → CI → Run workflow** |
+
+Menjalankan pengecekan yang sama secara lokal:
+
+```bash
+pip install ruff nbformat nbclient ipykernel pytest
+ruff check .
+python scripts/run_notebooks.py --check-clean $(git ls-files '*.ipynb')
+(cd projects/helmet-detection && pytest -q)
+python scripts/run_notebooks.py 01-deep-learning/*.ipynb   # menjalankan notebook dengan QUICK_RUN=1
+```
 
 ## Catatan Keamanan
 

@@ -20,6 +20,7 @@ Latar belakang pemilik repo:
    device = "cuda" if torch.cuda.is_available() else "cpu"
    ```
 5. **Perbarui README setiap ada modul/materi baru.** Update `README.md` modul yang bersangkutan (topik & status) dan tabel status di `README.md` utama.
+6. **Jalankan pengecekan CI secara lokal sebelum push**: `ruff check .`, `python scripts/run_notebooks.py --check-clean $(git ls-files '*.ipynb')`, dan notebook yang diubah lewat `python scripts/run_notebooks.py <notebook>`. Notebook di-commit **tanpa output**.
 
 ## Struktur
 
@@ -27,4 +28,6 @@ Latar belakang pemilik repo:
 - `NN-nama-modul/README.md` — tujuan, topik, dan status tiap modul.
 - `requirements.txt` — dependensi (saat ini untuk modul 01–04).
 - `projects/` — proyek portofolio. Setiap proyek punya `CLAUDE.md`, `README.md`, dan `requirements.txt` sendiri (lihat `projects/helmet-detection/`).
+- `.github/workflows/ci.yml` — CI (GitHub Actions): ruff, notebook tanpa output, scan API key, pytest proyek helm, dan notebook dengan `QUICK_RUN=1`. Notebook baru yang ringan ditambahkan ke job `notebooks`; yang mengunduh dataset besar ke job `notebooks-berat`.
+- `scripts/run_notebooks.py` — menjalankan notebook (`QUICK_RUN=1`) atau mengecek notebook bebas output (`--check-clean`).
 - `LICENSE` — AGPL-3.0 (mengikuti `ultralytics`). Jangan menambahkan kode atau dependensi dengan lisensi yang tidak kompatibel.

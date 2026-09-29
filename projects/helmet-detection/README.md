@@ -57,6 +57,8 @@ Yang dilakukan `src/prepare_data.py`:
 
 Opsi lengkap: `python src/prepare_data.py --help`.
 
+Tes otomatis (juga dijalankan oleh CI): `pytest -q`. Tes memakai dataset sintetis dari `tests/make_synthetic_dataset.py` dan mencakup error yang sengaja ditanam, dataset tanpa split, arsip berbahaya, serta kebocoran API key di URL.
+
 ## Training di Google Colab
 
 | Notebook | Isi | Colab |
