@@ -88,10 +88,22 @@ jobs:
             06-transformers-nlp/02_transformer_decoder_dari_nol.ipynb \
             07-embeddings-vectordb/02_ann_faiss_hnsw.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
+      - name: Jalankan notebook Claude API (server tiruan, tanpa API key)
+        # Notebook modul 08 yang memanggil Claude API diuji terhadap server lokal yang meniru bentuk respons API.
+        # Tidak ada API key sungguhan di CI; yang diuji adalah jalur kode notebook, bukan kualitas jawaban.
+        env:
+          ANTHROPIC_BASE_URL: http://127.0.0.1:8765
+          ANTHROPIC_API_KEY: kunci-uji
+        run: |
+          python scripts/fake_anthropic_server.py --port 8765 > "$RUNNER_TEMP/fake_api.log" 2>&1 &
+          sleep 2
+          python scripts/run_notebooks.py \
+            08-llm-basics/02_claude_api_dasar.ipynb \
+            08-llm-basics/03_structured_output_dan_tool_use.ipynb
 
   notebooks-berat:
     # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
-    # model dari Hugging Face) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
+    # model dari Hugging Face termasuk LLM lokal modul 08) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
     #   - terjadwal tiap Senin, atau manual lewat Actions → CI → Run workflow;
     #   - di PR yang diberi label `notebook-berat` (juga di setiap push selama label masih ada).
     # Satu job per notebook (matrix) agar berjalan paralel dan kegagalan mudah dilacak.
@@ -116,6 +128,7 @@ jobs:
           - 06-transformers-nlp/03_finetune_indobert_sentimen.ipynb
           - 07-embeddings-vectordb/01_embeddings_dan_similarity.ipynb
           - 07-embeddings-vectordb/03_vector_db.ipynb
+          - 08-llm-basics/01_cara_kerja_llm.ipynb
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
