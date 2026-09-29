@@ -13,7 +13,7 @@ Repo catatan dan latihan belajar **AI engineering**, dari deep learning dasar hi
 | 03 | [Object Detection](03-object-detection/) | 🟨 Sedang berjalan (3 notebook) |
 | 04 | [Image Segmentation](04-segmentation/) | 🟨 Sedang berjalan (3 notebook) |
 | 05 | [Vision Transformer (ViT)](05-vision-transformer/) | 🟨 Sedang berjalan (3 notebook) |
-| 06 | [Transformers untuk NLP](06-transformers-nlp/) | ⬜ Belum dimulai |
+| 06 | [Transformers untuk NLP](06-transformers-nlp/) | 🟨 Sedang berjalan (3 notebook) |
 | 07 | [Embeddings & Vector Database](07-embeddings-vectordb/) | ⬜ Belum dimulai |
 | 08 | [Dasar Large Language Model](08-llm-basics/) | ⬜ Belum dimulai |
 | 09 | [Retrieval-Augmented Generation (RAG)](09-rag/) | ⬜ Belum dimulai |
@@ -40,7 +40,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-`requirements.txt` saat ini mencakup dependensi modul 01–05.
+`requirements.txt` saat ini mencakup dependensi modul 01–06.
 
 ## Pengecekan Otomatis (CI)
 
@@ -50,8 +50,8 @@ Setiap pull request dan push ke `main` diperiksa otomatis oleh GitHub Actions ([
 |---|---|
 | Lint & kebersihan repo | `ruff check .`, notebook di-commit tanpa output, scan pola API key/token |
 | Tes `prepare_data.py` | `pytest` untuk proyek deteksi helm (dataset sintetis) |
-| Notebook (QUICK_RUN) | Menjalankan notebook modul 01, 03, 04 (kecuali U-Net), 05 (ViT dari nol), dan notebook training helm dengan data kecil di CPU |
-| Notebook dataset besar | Modul 02, U-Net, fine-tune ViT, dan CLIP (unduhan dataset/model besar). Tidak jalan di setiap PR; jalan terjadwal tiap Senin, manual lewat **Actions → CI → Run workflow**, atau di PR yang diberi label `notebook-berat` |
+| Notebook (QUICK_RUN) | Menjalankan notebook modul 01, 03, 04 (kecuali U-Net), 05 (ViT dari nol), 06 (tokenisasi & mini-GPT), dan notebook training helm dengan data kecil di CPU |
+| Notebook dataset besar | Modul 02, U-Net, fine-tune ViT, CLIP, dan fine-tune IndoBERT (unduhan dataset/model besar). Tidak jalan di setiap PR; jalan terjadwal tiap Senin, manual lewat **Actions → CI → Run workflow**, atau di PR yang diberi label `notebook-berat` |
 
 **Menguji notebook berat sebelum merge:** beri label `notebook-berat` pada PR. Job berat langsung berjalan, dan akan berjalan lagi di setiap push selama label masih terpasang (hapus label untuk menghentikannya). Tombol **Run workflow** hanya tersedia untuk workflow yang sudah ada di `main`.
 
