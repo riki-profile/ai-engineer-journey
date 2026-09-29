@@ -4,6 +4,8 @@ name: CI
 
 on:
   pull_request:
+    # "labeled": memberi label `notebook-berat` pada PR menjalankan job notebook berat
+    types: [opened, synchronize, reopened, labeled]
   push:
     branches: [main]
   schedule:
@@ -11,12 +13,14 @@ on:
   workflow_dispatch:         # tombol "Run workflow" manual di tab Actions
 
 concurrency:
-  group: ci-${{ github.ref }}
+  # Run karena label dipisah dari run biasa agar tidak saling membatalkan
+  group: ci-${{ github.ref }}-${{ github.event.action == 'labeled' && 'label' || 'utama' }}
   cancel-in-progress: true
 
 jobs:
   lint:
     name: Lint & kebersihan repo
+    if: github.event.action != 'labeled'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -40,6 +44,7 @@ jobs:
 
   test-helm:
     name: Tes prepare_data.py (proyek helm)
+    if: github.event.action != 'labeled'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -83,9 +88,16 @@ jobs:
 
   notebooks-berat:
     # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
-    # ViT & CLIP dari Hugging Face) hanya dijalankan terjadwal/manual agar PR tetap cepat.
-    name: Notebook dataset besar (terjadwal)
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    # ViT & CLIP dari Hugging Face) tidak dijalankan di setiap PR agar tetap cepat. Job ini jalan:
+    #   - terjadwal tiap Senin, atau manual lewat Actions → CI → Run workflow;
+    #   - di PR yang diberi label `notebook-berat` (juga di setiap push selama label masih ada).
+    name: Notebook dataset besar (terjadwal/label)
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       contains(github.event.pull_request.labels.*.name, 'notebook-berat') &&
+       (github.event.action != 'labeled' || github.event.label.name == 'notebook-berat'))
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:

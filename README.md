@@ -51,7 +51,9 @@ Setiap pull request dan push ke `main` diperiksa otomatis oleh GitHub Actions ([
 | Lint & kebersihan repo | `ruff check .`, notebook di-commit tanpa output, scan pola API key/token |
 | Tes `prepare_data.py` | `pytest` untuk proyek deteksi helm (dataset sintetis) |
 | Notebook (QUICK_RUN) | Menjalankan notebook modul 01, 03, 04 (kecuali U-Net), 05 (ViT dari nol), dan notebook training helm dengan data kecil di CPU |
-| Notebook dataset besar | Modul 02, U-Net, fine-tune ViT, dan CLIP (unduhan dataset/model besar); hanya terjadwal tiap Senin atau manual lewat tab **Actions → CI → Run workflow** |
+| Notebook dataset besar | Modul 02, U-Net, fine-tune ViT, dan CLIP (unduhan dataset/model besar). Tidak jalan di setiap PR; jalan terjadwal tiap Senin, manual lewat **Actions → CI → Run workflow**, atau di PR yang diberi label `notebook-berat` |
+
+**Menguji notebook berat sebelum merge:** beri label `notebook-berat` pada PR. Job berat langsung berjalan, dan akan berjalan lagi di setiap push selama label masih terpasang (hapus label untuk menghentikannya). Tombol **Run workflow** hanya tersedia untuk workflow yang sudah ada di `main`.
 
 Menjalankan pengecekan yang sama secara lokal:
 
