@@ -129,6 +129,7 @@ jobs:
             07-embeddings-vectordb/02_ann_faiss_hnsw.ipynb \
             10-llm-finetuning/01_kapan_finetuning_dan_lora_dari_nol.ipynb \
             12-deployment/*.ipynb \
+            13-mlops/*.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
       - name: Jalankan notebook Claude API (server tiruan, tanpa API key)
         # Notebook modul 08 & 11 yang memanggil Claude API diuji terhadap server lokal yang meniru bentuk respons API.

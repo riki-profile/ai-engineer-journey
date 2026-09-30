@@ -30,6 +30,7 @@ Kode aplikasi berupa file biasa, bukan di dalam notebook:
 | [`ui_gradio.py`](app/ui_gradio.py) | Demo UI Gradio (juga dipakai sebagai `app.py` di Hugging Face Spaces) |
 | [`Dockerfile`](app/Dockerfile), [`requirements.txt`](app/requirements.txt) | Image serving: FastAPI + ONNX Runtime, tanpa PyTorch (±400 MB) |
 | [`tests/test_api.py`](app/tests/test_api.py) | 11 tes: health, prediksi, validasi input, API key, ONNX = PyTorch |
+| [`tests/test_kualitas_model.py`](app/tests/test_kualitas_model.py) | Gerbang kualitas model (modul 13): akurasi test ≥ ambang (`AMBANG_AKURASI`, default 0,60) dan uji regresi perilaku |
 
 Menjalankan secara lokal (dari `12-deployment/app/`):
 
@@ -41,7 +42,7 @@ uvicorn main:app --reload         # buka http://127.0.0.1:8000/docs
 docker build -t api-sentimen . && docker run -p 8000:8000 -e API_KEY=rahasiamu api-sentimen
 ```
 
-CI menjalankan hal yang sama di job **API & Docker (modul 12)**: melatih model, `pytest`, membangun image, lalu menguji container (health check, 401 tanpa API key, prediksi dengan API key, user non-root).
+CI menjalankan hal yang sama di job **API & Docker (modul 12)**: melatih model, `pytest` (termasuk gerbang kualitas), membangun image, lalu menguji container (health check, 401 tanpa API key, prediksi dengan API key, user non-root).
 
 ## Data & Lisensi
 

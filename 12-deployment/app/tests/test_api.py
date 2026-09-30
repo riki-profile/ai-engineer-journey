@@ -2,31 +2,16 @@
 
 Jalankan dari folder 12-deployment/app/:
     pytest -q
-Jika artefak model belum ada, tes melatih model singkat lebih dulu (butuh torch & internet untuk data NusaX).
+Jika artefak model belum ada, tes melatih model lebih dulu (lihat conftest.py; butuh torch & internet untuk data NusaX).
 """
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-
 import numpy as np
 import pytest
+from conftest import ARTEFAK
 
-APP_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(APP_DIR))
-
-from model import LABELS, Prediktor  # noqa: E402
-
-ARTEFAK = APP_DIR / "artefak"
-
-
-@pytest.fixture(scope="session", autouse=True)
-def artefak():
-    if not (ARTEFAK / "model.onnx").exists():
-        from latih import latih
-        latih(ARTEFAK, epoch=3)
-    return ARTEFAK
+from model import LABELS, Prediktor
 
 
 @pytest.fixture
