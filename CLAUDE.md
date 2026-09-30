@@ -26,10 +26,10 @@ Latar belakang pemilik repo:
 
 - `README.md` — daftar isi modul dan status.
 - `NN-nama-modul/README.md` — tujuan, topik, dan status tiap modul.
-- `requirements.txt` — dependensi (saat ini untuk modul 01–11).
+- `requirements.txt` — dependensi (saat ini untuk modul 01–12).
 - `.env.example` — template `.env` (mis. `ANTHROPIC_API_KEY` untuk modul 08). `.env` sendiri tidak pernah di-commit.
 - `projects/` — proyek portofolio. Setiap proyek punya `CLAUDE.md`, `README.md`, dan `requirements.txt` sendiri (lihat `projects/helmet-detection/`).
-- `.github/workflows/ci.yml` — CI (GitHub Actions): ruff, notebook tanpa output, scan API key, pytest proyek helm, dan notebook dengan `QUICK_RUN=1`. Notebook baru yang ringan ditambahkan ke job `notebooks`; yang mengunduh dataset besar ke job `notebooks-berat` (jalan terjadwal, manual, atau di PR berlabel `notebook-berat`).
+- `.github/workflows/ci.yml` — CI (GitHub Actions): ruff, notebook tanpa output, scan API key, pytest proyek helm, API & Docker modul 12 (`12-deployment/app/`), dan notebook dengan `QUICK_RUN=1`. Notebook baru yang ringan ditambahkan ke job `notebooks`; yang mengunduh dataset besar ke job `notebooks-berat` (jalan terjadwal, manual, atau di PR berlabel `notebook-berat`).
 - `scripts/run_notebooks.py` — menjalankan notebook (`QUICK_RUN=1`) atau mengecek notebook bebas output (`--check-clean`).
 - `scripts/fake_anthropic_server.py` — server tiruan Claude API agar notebook yang memanggil API bisa diuji tanpa API key (dipakai CI; lihat `08-llm-basics/README.md`).
 - `LICENSE` — AGPL-3.0 (mengikuti `ultralytics`). Jangan menambahkan kode atau dependensi dengan lisensi yang tidak kompatibel.

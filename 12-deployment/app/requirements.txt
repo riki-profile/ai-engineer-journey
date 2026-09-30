@@ -1,0 +1,5 @@
+# Dependensi SERVING (image Docker). Sengaja tanpa torch: model disajikan dengan ONNX Runtime.
+fastapi
+uvicorn
+onnxruntime
+numpy

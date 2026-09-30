@@ -1,4 +1,4 @@
-# Dependensi untuk modul 01–11 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG, fine-tuning, agent)
+# Dependensi untuk modul 01–12 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG, fine-tuning, agent, deployment)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision
@@ -23,3 +23,10 @@ rank_bm25        # modul 09, BM25 (Apache-2.0)
 peft             # modul 10, LoRA (Apache-2.0)
 trl              # modul 10, SFTTrainer (Apache-2.0)
 mcp              # modul 11, Model Context Protocol (MIT)
+fastapi          # modul 12, API (MIT)
+uvicorn          # modul 12, server ASGI (BSD-3-Clause)
+httpx            # modul 12, klien HTTP (BSD-3-Clause)
+gradio           # modul 12, demo UI (Apache-2.0)
+onnx             # modul 12 (Apache-2.0)
+onnxscript       # modul 12, ekspor ONNX PyTorch (MIT)
+onnxruntime      # modul 12 (MIT)

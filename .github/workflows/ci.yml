@@ -58,6 +58,46 @@ jobs:
       - run: pip install pyyaml pillow python-dotenv pytest
       - run: pytest -q
 
+  api-deployment:
+    name: API & Docker (modul 12)
+    if: github.event.action != 'labeled'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: 12-deployment/app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instal dependensi training & tes
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt pandas onnx onnxscript httpx pytest
+      - name: Latih model & buat artefak
+        run: python latih.py --epoch 10
+      - name: Tes API (pytest)
+        run: pytest -q
+      - name: Build image Docker
+        run: docker build -t api-sentimen .
+      - name: Jalankan container & uji endpoint
+        run: |
+          docker run -d --name api -p 8000:8000 -e API_KEY=kunci-ci api-sentimen
+          for i in $(seq 1 30); do curl -sf http://localhost:8000/health && break; sleep 1; done
+          echo
+          kode=$(curl -s -o /dev/null -w '%{http_code}' -X POST localhost:8000/prediksi \
+                 -H 'Content-Type: application/json' -d '{"teks": "bagus"}')
+          test "$kode" = "401" || { echo "Tanpa API key seharusnya 401, dapat $kode"; exit 1; }
+          curl -sf -X POST localhost:8000/prediksi -H 'Content-Type: application/json' \
+               -H 'X-API-Key: kunci-ci' -d '{"teks": "barangnya bagus"}'
+          echo
+          test "$(docker exec api whoami)" = "appuser"
+          docker images api-sentimen --format 'Ukuran image: {{.Size}}'
+      - name: Log container
+        if: always()
+        run: docker logs api || true
+
   notebooks:
     name: Notebook (QUICK_RUN)
     needs: lint
@@ -88,6 +128,7 @@ jobs:
             06-transformers-nlp/02_transformer_decoder_dari_nol.ipynb \
             07-embeddings-vectordb/02_ann_faiss_hnsw.ipynb \
             10-llm-finetuning/01_kapan_finetuning_dan_lora_dari_nol.ipynb \
+            12-deployment/*.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
       - name: Jalankan notebook Claude API (server tiruan, tanpa API key)
         # Notebook modul 08 & 11 yang memanggil Claude API diuji terhadap server lokal yang meniru bentuk respons API.
