@@ -1,4 +1,4 @@
-# Dependensi untuk modul 01–12 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG, fine-tuning, agent, deployment)
+# Dependensi untuk modul 01–13 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG, fine-tuning, agent, deployment, MLOps)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision
@@ -30,3 +30,5 @@ gradio           # modul 12, demo UI (Apache-2.0)
 onnx             # modul 12 (Apache-2.0)
 onnxscript       # modul 12, ekspor ONNX PyTorch (MIT)
 onnxruntime      # modul 12 (MIT)
+mlflow           # modul 13, experiment tracking & model registry (Apache-2.0)
+scipy            # modul 13, uji statistik drift (BSD-3-Clause)
