@@ -1,4 +1,4 @@
-# Dependensi untuk modul 01–10 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG, fine-tuning)
+# Dependensi untuk modul 01–11 (deep learning, CNN, deteksi, segmentasi, ViT, NLP, embeddings & vector DB, LLM, RAG, fine-tuning, agent)
 # Catatan: di Google Colab, torch & torchvision biasanya sudah terpasang.
 torch
 torchvision
@@ -22,3 +22,4 @@ python-dotenv    # modul 08, membaca .env (BSD-3-Clause)
 rank_bm25        # modul 09, BM25 (Apache-2.0)
 peft             # modul 10, LoRA (Apache-2.0)
 trl              # modul 10, SFTTrainer (Apache-2.0)
+mcp              # modul 11, Model Context Protocol (MIT)

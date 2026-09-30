@@ -90,7 +90,7 @@ jobs:
             10-llm-finetuning/01_kapan_finetuning_dan_lora_dari_nol.ipynb \
             projects/helmet-detection/notebooks/*.ipynb
       - name: Jalankan notebook Claude API (server tiruan, tanpa API key)
-        # Notebook modul 08 yang memanggil Claude API diuji terhadap server lokal yang meniru bentuk respons API.
+        # Notebook modul 08 & 11 yang memanggil Claude API diuji terhadap server lokal yang meniru bentuk respons API.
         # Tidak ada API key sungguhan di CI; yang diuji adalah jalur kode notebook, bukan kualitas jawaban.
         env:
           ANTHROPIC_BASE_URL: http://127.0.0.1:8765
@@ -100,7 +100,8 @@ jobs:
           sleep 2
           python scripts/run_notebooks.py \
             08-llm-basics/02_claude_api_dasar.ipynb \
-            08-llm-basics/03_structured_output_dan_tool_use.ipynb
+            08-llm-basics/03_structured_output_dan_tool_use.ipynb \
+            11-ai-agent/*.ipynb
 
   notebooks-berat:
     # Notebook yang mengunduh dataset/model besar (CIFAR-10, Flowers102, Oxford-IIIT Pet,
