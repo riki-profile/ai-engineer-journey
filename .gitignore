@@ -237,3 +237,9 @@ dataset_bentuk/
 # Database & memori yang dibuat notebook modul 11
 11-ai-agent/toko.db
 11-ai-agent/ingatan.json
+
+# Artefak & hasil notebook modul 12 (dibuat ulang oleh latih.py / notebook)
+12-deployment/app/artefak/
+12-deployment/artefak_int8/
+12-deployment/space/
+12-deployment/*.onnx
